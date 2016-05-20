@@ -11,6 +11,6 @@
 * Windows/Visual Studio
 
 ### 相关资料
-可运行程序：http://pan.baidu.com/s/1b2JWcQ
-原理请参考：https://blog.exbye.com/2016/05/pajek-net-file-creator-with-multi-platforms/
-欢迎在GitHub上提出相关的issue.
+* 可运行程序：http://pan.baidu.com/s/1b2JWcQ
+* 原理请参考：https://blog.exbye.com/2016/05/pajek-net-file-creator-with-multi-platforms/
+* 欢迎在GitHub上提出相关的issue.
