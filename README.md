@@ -14,6 +14,6 @@
 * Windows/Visual Studio
 
 ### 相关资料
-* 可运行程序：http://pan.baidu.com/s/1b2JWcQ；如果在 MacOSX/Linux 上无法正确识别命令，请用 sudo chmod x+u CreateNetFile_mac64bit  命令为程序添加执行功能。
+* 可运行程序：http://pan.baidu.com/s/1b2JWcQ; 如果在 MacOSX/Linux 上无法正确识别命令，请用 sudo chmod x+u CreateNetFile_mac64bit  命令为程序添加执行功能。
 * 原理请参考：https://blog.exbye.com/2016/05/pajek-net-file-creator-with-multi-platforms/
 * 欢迎在GitHub上提出相关的issue.
