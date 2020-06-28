@@ -1,4 +1,4 @@
-﻿// stdafx.h : 标准系统包含文件的包含文件，
+// stdafx.h : 标准系统包含文件的包含文件，
 // 或是经常使用但不常更改的
 // 特定于项目的包含文件
 // #pragma once
@@ -9,10 +9,13 @@
 #include <fstream>
 #include <ctime>
 
-//#define PLATFORM_MACOSX
+#if defined(__APPLE__)
+#define PLATFORM_MACOSX
+#elif defined(_WIN32) || define(_WIN64)
 #define PLATFORM_WINNT
-//#define PLATFORM_LINUX
-
+#elif defined(__linux__)
+#define PLATFORM_LINUX
+#endif
 
 #if defined(PLATFORM_MACOSX)
 
