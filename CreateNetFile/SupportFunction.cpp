@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "CreateNetFile.h"
 
 
@@ -243,6 +243,40 @@ int SplitLine(char *pLine,char ** wordLine,int lineLen,int wordNumPerLine,char s
 	return i;
 };
 
+char *splitWeigth(char *pLine, int weights[], int count, char s = '\t') {
+    int anchor = 0;
+    if (strlen(pLine) == 0) {
+        return nullptr;
+    }
+    char *name = nullptr;
+    int index = -1;
+    int weight = 0;
+    while (true) {
+        if (pLine[anchor] != s && pLine[anchor] != '\0') {
+            if (index < 0) {
+                anchor++;
+            } else {
+                weight = 10 * weight + pLine[anchor] - 48;
+                anchor++;
+            }
+            continue;
+        }
+        if (index < 0) {
+            pLine[anchor] = '\0';
+            name = pLine;
+        } else {
+            weights[index] = weight;
+            weight = 0;
+        }
+        index++;
+        anchor++;
+        if (index == count) {
+            break;
+        }
+    }
+    return name;
+}
+
 //打印词语数组
 void PrintWords(char **words,int num)
 {
@@ -391,6 +425,82 @@ int BalanceMainProc(char **lines,int lineNum,Arc* &arcs,Edge* &edges,int &setArc
 
 	cout<<"网络构建完毕，使用时间为"<<double(end-start)/CLOCKS_PER_SEC<<"秒."<<endl;
 	return iArc;
+}
+
+/*
+ * @param lines, 文本行
+ * @param lineNum, 行数
+ * @parma arcs, 顶点集合
+ * @parma edges, 边集合
+ * @param setArcNum, 顶点个数
+ * @param setEdgeNum, 边个数
+ * @param lineLen, 行最大长度
+ */
+int BalanceMatrixProc(char **lines,int lineNum,Arc* &arcs,Edge* &edges,int &setArcNum,int &setEdgeNum,int lineLen)
+{
+    setArcNum = lineNum - 1;
+    setEdgeNum = EDGE_NUM; // 待定
+    
+    map<char *,int,cmp_str> arcMap;//点的map
+    arcMap.clear();
+    map<Edge*,int,cmp_edge> edgeMap;//边的map
+    edgeMap.clear();
+    
+    clock_t start=clock();
+    
+    arcs=new Arc[setArcNum];
+    char **wordLine=new char*[setArcNum];
+    cout << "遍历首行" << endl;
+    int row = 0;
+    char *currentLine = lines[row];
+    int wordLineNum = SplitLine(currentLine, wordLine, lineLen, setArcNum+1, '\t');
+    setArcNum = wordLineNum;
+    for (int i = 0; i < wordLineNum; i++) {
+        Arc *arc = arcs + i;
+        arc->word = wordLine[i];
+        arc->edgeIndex = nullptr;
+        arc->edgeIndexNum = 0;
+        arcMap[arc->word] = i;
+    }
+    
+    edges=new Edge[setEdgeNum];
+    int *weights = new int(setArcNum);
+    int edgeCount = 0;
+    for (; row < lineNum-1; row++) {
+        if((row+1)%1000==0)
+        {
+            cout<<"已经处理了"<<row+1<<"行..."<<endl;
+        }
+        currentLine = lines[row+1];
+        if (strlen(currentLine) == 0) {
+            break;
+        }
+        char *name = splitWeigth(currentLine, weights, setArcNum);
+        for (int j = 0; j <= row; j++) {
+            int weight = weights[j];
+            if (weight <= 0) {
+                continue;
+            }
+            Edge &edge = edges[edgeCount];
+            int begin = arcMap[name];
+            edge.arcBegin = begin;
+            edge.arcEnd = j;
+            edge.value = weights[j];
+            edgeCount++;
+        }
+    }
+    delete weights;
+    
+    delete []wordLine;
+    wordLine=NULL;
+    
+    setEdgeNum = edgeCount;
+    
+    clock_t end=clock();
+
+    cout<<"网络构建完毕，使用时间为"<<double(end-start)/CLOCKS_PER_SEC<<"秒."<<endl;
+    
+    return 0;
 }
 
 int FindArc(Arc *arcs,int num,const char *word)

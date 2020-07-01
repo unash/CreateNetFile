@@ -1,4 +1,4 @@
-﻿// CreateNetFile.cpp : 定义控制台应用程序的入口点。
+// CreateNetFile.cpp : 定义控制台应用程序的入口点。
 //
 
 #include "stdafx.h"
@@ -6,6 +6,7 @@
 
 struct globalArgs_t {
     char *input;                    /* -f option */
+    char *type;                     /* -t option */
     char *output_freq;				/* - option */
     char *output_net;				/* - option */
 } globalArgs;
@@ -16,7 +17,9 @@ void SaveTimeProc(); //费空间方案，使用二维整型数组来存储边权
 bool BalanceProc();  //平衡方案，使用边结构体数组存储
 void orgnizeParameters(int argc, _TCHAR* const argv[]);
 
-char *const d_inputFilePath = "./tab_file_test.txt";  // input file path
+char *const d_inputFilePath = "./tab_file_matrix.txt";  // input file path
+char *const d_inputFileTypeC = "c";                    // co-occurrence
+char *const d_inputFileTypeM = "m";                    // adjacency matrix
 char *const d_freqFilePath  = "./FreqFile.txt"; // 注：纯C++没有创建目录的方法
 char *const d_netFilePath   = "./NetFile.net";  //
 
@@ -38,11 +41,10 @@ int MainX(int argc, _TCHAR* argv[])
 
 void orgnizeParameters(int argc, _TCHAR* const argv[])
 {
-
 	globalArgs.input = d_inputFilePath;
-	globalArgs.output_freq = d_freqFilePath;
+	globalArgs.type = d_inputFileTypeC;
+    globalArgs.output_freq = d_freqFilePath;
 	globalArgs.output_net = d_netFilePath;
-
 #ifndef PLATFORM_WINNT
 	// cout<<argc<<"\n"<<argv<<endl;
 	int opt = getopt(argc, argv, optString);
@@ -51,7 +53,9 @@ void orgnizeParameters(int argc, _TCHAR* const argv[])
 		case 'f':
 			globalArgs.input = optarg;
 			break;
-
+        case 't':
+            globalArgs.type = optarg;
+            break;
 		default:
 			break;
 		}
@@ -74,19 +78,34 @@ bool BalanceProc()
 	int arcNum=ARC_NUM;
 	int edgeNum=EDGE_NUM;
 
-	if(BalanceMainProc(lines,lineNum,arcs,edges,arcNum,edgeNum)!=-1){
-		WriteArcFreqFile(globalArgs.output_freq,arcs,arcNum,edges,edgeNum);
-		WriteArcNetFile(globalArgs.output_net,arcs,arcNum,edges,edgeNum);
-		DeleteArcs(arcs,arcNum);
-		delete []edges;
-        cout<<"边销毁完毕."<<endl;
-		DeleteCharArray(lines,lineNum);
-		return true;
-	}
-	else{
-		DeleteCharArray(lines,lineNum);
-		return false;
-	}
+    if (std::strcmp(globalArgs.type, d_inputFileTypeM)) {
+        if (BalanceMatrixProc(lines, lineNum, arcs, edges, arcNum, edgeNum, 5000) != -1) {
+            WriteArcFreqFile(globalArgs.output_freq,arcs,arcNum,edges,edgeNum);
+            WriteArcNetFile(globalArgs.output_net,arcs,arcNum,edges,edgeNum);
+            DeleteArcs(arcs,arcNum);
+            delete []edges;
+            cout<<"边销毁完毕."<<endl;
+            DeleteCharArray(lines,lineNum);
+            return true;
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if(BalanceMainProc(lines,lineNum,arcs,edges,arcNum,edgeNum)!=-1){
+            WriteArcFreqFile(globalArgs.output_freq,arcs,arcNum,edges,edgeNum);
+            WriteArcNetFile(globalArgs.output_net,arcs,arcNum,edges,edgeNum);
+            DeleteArcs(arcs,arcNum);
+            delete []edges;
+            cout<<"边销毁完毕."<<endl;
+            DeleteCharArray(lines,lineNum);
+            return true;
+        }
+        else{
+            DeleteCharArray(lines,lineNum);
+            return false;
+        }
+    }
 }
 void SaveTimeProc()//省时间的处理方案
 {

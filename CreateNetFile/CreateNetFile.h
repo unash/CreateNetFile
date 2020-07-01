@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include <string.h>
 #include <cstring>
 #include <map>
@@ -89,6 +89,7 @@ void WriteFreqFile(char **&wordAll,int **&matric,int wordAllNum,char *fileLoc);
 
 //Balance方案部分
 int BalanceMainProc(char **lines,int lineNum,Arc* &arcs,Edge* &edges,int &setArcNum,int &setEdgeNum,int lineLen=LINE_LEN,int setArcPerLine=ARC_PER_LINE,int setArcHasEdge=ARC_HAS_EDGE);
+int BalanceMatrixProc(char **lines,int lineNum,Arc* &arcs,Edge* &edges,int &setArcNum,int &setEdgeNum,int lineLen);
 int FindArc(Arc *arcs,int num,const char *word);//从Arc数组中查找字符串是否存在
 int FindArc(map<char *,int,cmp_str> &arcMap,char *word);
 int FillEdge(Arc *arcs,Edge *edges,int arcNum,int &edgeNum,int edgeMaxNum,int *position,int wordLineNum,int setArcHasEdge,bool direct,map<Edge*,int,cmp_edge> &edgeMap);//direct 为1时，代表有向；为0时，无向

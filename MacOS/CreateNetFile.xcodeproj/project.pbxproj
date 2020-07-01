@@ -11,6 +11,7 @@
 		CC5E80941CE5DF8A00743C0C /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5E808F1CE5DF8A00743C0C /* stdafx.cpp */; };
 		CC5E80951CE5DF8A00743C0C /* SupportFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5E80911CE5DF8A00743C0C /* SupportFunction.cpp */; };
 		CC645FA21CEB65950070E00F /* tab_file_test.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = CC645FA01CEB62DC0070E00F /* tab_file_test.txt */; };
+		D075CFA824A903FB00D139D7 /* tab_file_matrix.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0C4CC4724A903910071298D /* tab_file_matrix.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -21,6 +22,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				CC645FA21CEB65950070E00F /* tab_file_test.txt in CopyFiles */,
+				D075CFA824A903FB00D139D7 /* tab_file_matrix.txt in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,6 +37,7 @@
 		CC5E80911CE5DF8A00743C0C /* SupportFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SupportFunction.cpp; sourceTree = "<group>"; };
 		CC5E80921CE5DF8A00743C0C /* targetver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = targetver.h; sourceTree = "<group>"; };
 		CC645FA01CEB62DC0070E00F /* tab_file_test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tab_file_test.txt; sourceTree = "<group>"; };
+		D0C4CC4724A903910071298D /* tab_file_matrix.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tab_file_matrix.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,7 @@
 		CC645F9E1CEB62DC0070E00F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				D0C4CC4724A903910071298D /* tab_file_matrix.txt */,
 				CC645FA01CEB62DC0070E00F /* tab_file_test.txt */,
 			);
 			name = Data;
@@ -127,6 +131,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = CC5E80791CE5DF5200743C0C;
